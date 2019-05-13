@@ -70,17 +70,14 @@ function scoreboard:draw()
   local scoreboard_x, scoreboard_y = window_width_center - scoreboard_width_center, window_height_center - scoreboard_height_center
 
   -- Set window background
-  -- love.graphics.setBackgroundColor(14, 36, 48) -- love versions prior to 0.11.0
-  love.graphics.setBackgroundColor(15 / 255, 89 / 255, 105 / 255)
+  love.graphics.setBackgroundColor(76 / 255 ,70 / 255, 50 / 255)
 
   -- Draw background rectangle
-  -- love.graphics.setColor(232, 213, 183) -- love version prior to 0.11.0
-  love.graphics.setColor(2 / 255 ,160 / 255, 197 / 255) -- love version prior to 0.11.0
+  love.graphics.setColor(255 / 255, 217 / 255, 153 / 255)
   love.graphics.rectangle("fill", scoreboard_x, scoreboard_y, scoreboard_width, scoreboard_height)
 
   -- Draw title text
-  -- love.graphics.setColor(252, 58, 81) -- love versions prior to 0.11.0
-  love.graphics.setColor(255 / 255, 255 / 255, 255 / 255)
+  love.graphics.setColor(25 / 255, 25 / 255, 25 / 255)
   love.graphics.setFont(self.assets.title)
   love.graphics.print("Scoreboard", scoreboard_x + 40, scoreboard_y + 20)
   love.graphics.setFont(self.assets.default)
@@ -93,8 +90,7 @@ function scoreboard:draw()
   for i, score in ipairs(self.scores) do
     local score_x, score_y = scoreboard_x + 40, scoreboard_y + 50
 
-    -- love.graphics.setColor(252, 58, 81) -- love versions prior to 0.11.0
-    love.graphics.setColor(255 / 255, 255 / 255, 255 / 255)
+    love.graphics.setColor(25 / 255, 25 / 255, 25 / 255)
     love.graphics.print(score, score_x, 30 * i + score_y)
   end
   love.graphics.setFont(self.assets.default)

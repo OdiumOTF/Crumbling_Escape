@@ -13,7 +13,6 @@ local settings = {
   }
 }
 
-
 function settings:draw()
   -- Calculate drawable positions
   local window_width, window_height = love.graphics.getDimensions()
@@ -25,17 +24,14 @@ function settings:draw()
   local settings_x, settings_y = window_width_center - settings_width_center, window_height_center - settings_height_center
 
   -- Set window background
-  -- love.graphics.setBackgroundColor(14, 36, 48) -- love versions prior to 0.11.0
-  love.graphics.setBackgroundColor(15 / 255, 89 / 255, 105 / 255)
+  love.graphics.setBackgroundColor(76 / 255 ,70 / 255, 50 / 255)
 
   -- Draw background rectangle
-  -- love.graphics.setColor(232, 213, 183) -- love version prior to 0.11.0
-  love.graphics.setColor(2 / 255 ,160 / 255, 197 / 255) -- love version prior to 0.11.0
+  love.graphics.setColor(255 / 255, 217 / 255, 153 / 255)
   love.graphics.rectangle("fill", settings_x, settings_y, settings_width, settings_height)
 
   -- Draw title text
-  -- love.graphics.setColor(252, 58, 81) -- love versions prior to 0.11.0
-  love.graphics.setColor(255 / 255, 255 / 255, 255 / 255)
+  love.graphics.setColor(25 / 255, 25 / 255, 25 / 255)
   love.graphics.setFont(self.assets.title)
   love.graphics.print("Settings", settings_x + 40, settings_y + 20)
   love.graphics.setFont(self.assets.default)
@@ -49,11 +45,9 @@ function settings:draw()
     local setting_x, setting_y = settings_x + 40, settings_y + 50
 
     if i == self.selected_item then
-      -- love.graphics.setColor(14, 36, 48) -- love versions prior to 0.11.0
-      love.graphics.setColor(0 / 255, 0 / 255, 0 / 255)
+      love.graphics.setColor(250 / 255, 250 / 255, 250 / 255)
     else
-      -- love.graphics.setColor(252, 58, 81) -- love versions prior to 0.11.0
-      love.graphics.setColor(255 / 255, 255 / 255, 255 / 255)
+      love.graphics.setColor(25 / 255, 25 / 255, 25 / 255)
     end
 
     love.graphics.print(setting, setting_x, 30 * i + setting_y)

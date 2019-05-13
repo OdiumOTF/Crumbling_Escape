@@ -2,9 +2,9 @@ local play = {
   assets = {
     score = love.graphics.newFont(20),
     default = love.graphics.getFont(),
+    player_image = love.graphics.newImage("assets/player.png"),
 	  music = love.audio.newSource("assets/music.wav", "stream"),
     died = love.audio.newSource("assets/died.wav", "static"),
-    powerup = love.audio.newSource("assets/powerup.wav", "static"),
     level = love.audio.newSource("assets/level.wav", "static"),
     jump = love.audio.newSource("assets/jump.wav", "static"),
     debris = love.audio.newSource("assets/debris.wav", "static"),
@@ -24,8 +24,8 @@ local play = {
   player = {
     x = 0,
     y = 0,
-    width = 40,
-    height = 40,
+    width = 32,
+    height = 64,
     speed = 300,
     y_velocity = 0,
     jump_height = -400,
@@ -61,7 +61,7 @@ function play:entered()
   local window_width, window_height = love.graphics.getDimensions()
 	
   self.entry.x = self.map_wall_width + 5
-  self.entry.y = window_height - self.map_wall_width * 3
+  self.entry.y = window_height - self.map_wall_width * 2
 
   self.exit.width, self.exit.height = self.assets.door:getDimensions()
   self.exit.x = window_width - self.map_wall_width - self.exit.width
@@ -114,25 +114,24 @@ function play:update(dt)
   --Check collision with ground
   if self.player.y > self.ground then
     self.player.y_velocity = 0
-    self.player.y = self.ground
+    self.player.y = self.ground - self.player.height / 2
   end
   
   --DEBRIS
 
   -- Spawn more debris if the time permits
-  while #self.debris < (self.game_time_score / 4) * self.difficulty do
-    local debris = {
-      size = self.debris_size[love.math.random(1,3)],
-      speed = love.math.random(200, 400),
-      x = love.math.random(0, window_width),
-      y = -50
-    }
+    while #self.debris < (self.game_time_score / 4) * self.difficulty and #self.debris < 40 do
+      local debris = {
+        size = self.debris_size[love.math.random(1,3)],
+       speed = love.math.random(200, 350),
+       x = love.math.random(5, window_width),
+       y = -50
+     }
     
-    table.insert(self.debris, debris)
-    self.assets.debris:play()
-    if self.sound then
-      --self.assets.debris:play()
-    end
+     table.insert(self.debris, debris)
+      if self.sound then
+       self.assets.debris:play()
+      end
   end
 
   -- Apply debris movement
@@ -179,6 +178,7 @@ function play:update(dt)
     -- Move player to new entry
     self.player.x = self.map_wall_width + 5
     self.player.y = self.entry.y
+    
     self.assets.level:play()
   end
 end
@@ -187,11 +187,11 @@ function play:draw()
   local window_width, window_height = love.graphics.getDimensions()
   
   -- Draw map wall
-  love.graphics.setColor(2 / 255 ,160 / 255, 197 / 255)
+  love.graphics.setColor(76 / 255 ,70 / 255, 50 / 255)
   love.graphics.rectangle("fill", 0, 0, window_width, window_height)
 
   -- Draw map play space
-  love.graphics.setColor(14 / 255, 36 / 255, 48 / 255)
+  love.graphics.setColor(255 / 255, 217 / 255, 153 / 255)
   love.graphics.rectangle("fill", self.map_wall_width, self.map_wall_width, 
   window_width - self.map_wall_width * 2, window_height - self.map_wall_width * 2)
 
@@ -200,13 +200,13 @@ function play:draw()
   love.graphics.draw(self.assets.door, self.exit.x, self.exit.y)
 
   -- Draw player
-  love.graphics.setColor(252 / 255, 58 / 255, 81 / 255)
-  love.graphics.rectangle("fill", self.player.x, self.player.y, self.player.width, self.player.height) 
+  love.graphics.setColor(255 / 255, 255 / 255, 255 / 255)
+  love.graphics.draw(self.assets.player_image, self.player.x, self.player.y) 
 
   -- Draw Ground
   love.graphics.setColor(255 / 255, 255 / 255, 255 / 255)
   local window_tile_width = window_width / 64
-  for i = 1, window_tile_width do 
+  for i = 1, 20 do 
     love.graphics.draw(self.assets.ground, 0 + (64 * (i - 1)), self.ground + 40)
   end
   if self.ground > self.map_wall_width then
@@ -219,8 +219,9 @@ function play:draw()
       love.graphics.draw(self.assets.ground, 0 + (64 * (i - 1)), self.ground + 40 + 128)
     end
   end
+
   -- Draw score timer
-  love.graphics.setColor(232 / 255 ,213 / 255, 183 / 255)
+  love.graphics.setColor(32 / 255 ,13 / 255, 83 / 255)
   love.graphics.setFont(self.assets.score)
   love.graphics.print("Score: " .. self.game_time_score, 50, 50)
   love.graphics.setFont(self.assets.default)
